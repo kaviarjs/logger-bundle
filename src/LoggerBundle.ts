@@ -1,16 +1,19 @@
 import { Bundle } from "@kaviar/core";
 import { ILoggerBundleConfig } from "./defs";
-import { ConsoleListener } from "./handlers/ConsoleListener";
+import { ConsoleListener } from "./listeners/ConsoleListener";
+import { LoggerService } from "./services/LoggerService";
 
 export class LoggerBundle extends Bundle<ILoggerBundleConfig> {
   defaultConfig = {
     console: true,
   };
 
-  async init() {
-    // This will just listen to log event and print it into console
+  async prepare() {
+    this.get<LoggerService>(LoggerService);
     if (this.config.console) {
       this.warmup([ConsoleListener]);
     }
   }
+
+  async init() {}
 }

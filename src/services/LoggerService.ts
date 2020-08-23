@@ -1,8 +1,9 @@
+import { EventManager, Inject, Service } from "@kaviar/core";
 import { ILogger, LogLevel } from "../defs";
-import { EventManager } from "@kaviar/core";
 import { Log } from "../models";
 import { LogEvent } from "../events";
 
+@Service()
 export class LoggerService implements ILogger {
   constructor(protected readonly eventManager: EventManager) {}
 

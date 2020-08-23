@@ -1,8 +1,8 @@
-## Logging
+This bundle allows you to log information that happens in your sistem. The logger can optionally output to `console.log` but later on, as your system grows, all of your instances should output to a centralised log management place. This is why we strongly recommend, as you're building your app, to use `LoggerService` instead of `console.log`
 
 ```typescript
 new LoggerBundle({
-  // This will just print the log to console
+  // This will just print the log to console as well
   console: true,
 });
 ```
@@ -14,7 +14,7 @@ const logger = container.get(LoggerService);
 logger.info("User access forbidden");
 
 // Add more context to your log
-logger.info("User access forbidden", { route: "/123" }); // Th
+logger.info("User access forbidden", { route: "/123" }); // You can do anything you like to your context
 
 // Some other type of logs
 logger.warning("User access forbidden");
@@ -35,29 +35,28 @@ export interface ILog {
 If you want to listen to event and email all the critical ones:
 
 ```typescript
-import { Listener } from "@kaviar/core";
+import { Listener, On } from "@kaviar/core";
 import { LogEvent, LogLevel } from "@kaviar/logger-bundle";
 
 export class EmailCriticalLogs extends Listener {
   constructor(protected readonly emailService: EmailService) {}
 
-  init() {
-    this.on(LogEvent, (e: LogEvent) => {
-      const log = e.data.log;
+  @On(LogEvent)
+  onLog(e: LogEvent) {
+    const log = e.data.log;
 
-      if (log.level === LogLevel.CRITICAL) {
-        // this.emailService.send()
-      }
-    });
+    if (log.level === LogLevel.CRITICAL) {
+      // this.emailService.send()
+    }
   }
 }
 ```
 
-And this needs to be warmed up in your bundle:
+And ofcourse don't forget to register you listener:
 
 ```typescript
 class AppBundle extends Bundle {
-  async init() {
+  async prepare() {
     // Warming up simply means instantiating and running init so it attaches events
     this.warmup([EmailCriticalLogs]);
   }

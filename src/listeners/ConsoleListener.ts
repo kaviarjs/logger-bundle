@@ -8,16 +8,16 @@ export class ConsoleListener extends Listener {
       const log = e.data.log;
 
       if (log.level === LogLevel.INFO) {
-        console.log(log);
+        console.log(`[info] ${log.message}`, log.context);
       }
       if (log.level === LogLevel.WARNING) {
-        console.warn(log);
+        console.warn(`[warning] ${log.message}`, log.context);
       }
       if (log.level === LogLevel.ERROR) {
-        console.error(log);
+        console.error(`[error] ${log.message}`, log.context);
       }
       if (log.level === LogLevel.CRITICAL) {
-        console.error(log);
+        console.error(`[critical] ${log.message}`, log.context);
       }
     });
   }

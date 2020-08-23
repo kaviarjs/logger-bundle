@@ -1,65 +1,25 @@
-## Logging
+<h1 align="center">KAVIAR CORE</h1>
 
-```typescript
-new LoggerBundle({
-  // This will just print the log to console
-  console: true,
-});
+<p align="center">
+  <a href="https://travis-ci.org/kaviarjs/logger-bundle">
+    <img src="https://api.travis-ci.org/kaviarjs/logger-bundle.svg?branch=master" />
+  </a>
+  <a href="https://coveralls.io/github/kaviarjs/logger-bundle?branch=master">
+    <img src="https://coveralls.io/repos/github/kaviarjs/logger-bundle/badge.svg?branch=master" />
+  </a>
+</p>
+
+<br />
+<br />
+
+This bundle allows you to log information that happens in your sistem. The logger can optionally output to `console.log` but later on, as your system grows, all of your instances should output to a centralised log management place. This is why we strongly recommend, as you're building your app, to use `LoggerService` instead of `console.log`
+
+## Install
+
+```bash
+npm install --save @kaviar/logger-bundle
 ```
 
-If you want to use it:
+## [Documentation](./DOCUMENTATION.md)
 
-```typescript
-const logger = container.get(LoggerService);
-logger.info("User access forbidden");
-
-// Add more context to your log
-logger.info("User access forbidden", { route: "/123" }); // Th
-
-// Some other type of logs
-logger.warning("User access forbidden");
-logger.error("User access forbidden");
-logger.critical("User access forbidden");
-```
-
-The log object created looks like this:
-
-```typescript
-export interface ILog {
-  message: string;
-  level: LogLevel; // INFO, ERROR, WARNING, CRITICAL
-  context: any;
-}
-```
-
-If you want to listen to event and email all the critical ones:
-
-```typescript
-import { Listener } from "@kaviar/core";
-import { LogEvent, LogLevel } from "@kaviar/logger-bundle";
-
-export class EmailCriticalLogs extends Listener {
-  constructor(protected readonly emailService: EmailService) {}
-
-  init() {
-    this.on(LogEvent, (e: LogEvent) => {
-      const log = e.data.log;
-
-      if (log.level === LogLevel.CRITICAL) {
-        // this.emailService.send()
-      }
-    });
-  }
-}
-```
-
-And this needs to be warmed up in your bundle:
-
-```typescript
-class AppBundle extends Bundle {
-  async init() {
-    // Warming up simply means instantiating and running init so it attaches events
-    this.warmup([EmailCriticalLogs]);
-  }
-}
-```
+[Click here to go to the documentation](./DOCUMENTATION.md)
