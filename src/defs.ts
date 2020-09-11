@@ -19,8 +19,8 @@ export interface ILogger {
 }
 
 export enum LogLevel {
-  CRITICAL,
-  ERROR,
-  WARNING,
-  INFO,
+  CRITICAL = "critical",
+  ERROR = "error",
+  WARNING = "warning",
+  INFO = "info",
 }
