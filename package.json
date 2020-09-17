@@ -1,7 +1,6 @@
 {
   "name": "@kaviar/logger-bundle",
   "version": "1.0.0",
-  "private": true,
   "description": "Logging solution perfecly designed for Kaviar Framework.",
   "main": "dist/index.js",
   "repository": {
